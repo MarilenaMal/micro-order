@@ -381,3 +381,10 @@ http://192.168.10.10
 - Τεχνολογίες Industry 4.0
 
 Η εφαρμογή αποδεικνύει την ενοποίηση software και network infrastructure σε ένα ολοκληρωμένο ψηφιακό βιομηχανικό περιβάλλον.
+
+---
+![Eikona 1](https://github.com/MarilenaMal/micro-order/blob/e902fcebc7b56e8afb23da061109cb50d7300dc5/images/%7B08B035E3-819C-4CDF-8770-8C4F2154D3B1%7D.png)
+![Eikona 2](https://github.com/MarilenaMal/micro-order/blob/e902fcebc7b56e8afb23da061109cb50d7300dc5/images/%7B2DD097C6-6164-471C-A6E0-340A478AAF9D%7D.png)
+![Eikona 3](https://github.com/MarilenaMal/micro-order/blob/e902fcebc7b56e8afb23da061109cb50d7300dc5/images/%7B31502B1B-5126-4FB8-B031-17DC4986527A%7D.png)
+![Eikona 4](https://github.com/MarilenaMal/micro-order/blob/e902fcebc7b56e8afb23da061109cb50d7300dc5/images/%7B4680E99F-B45F-4B69-9C5A-1262144CF23C%7D.png)
+![Eikona 5](https://github.com/MarilenaMal/micro-order/blob/e902fcebc7b56e8afb23da061109cb50d7300dc5/images/%7B5C737F43-738E-427F-ACC9-7C8769C97F8B%7D.png)
