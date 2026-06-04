@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Micro-Industrial Orders</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --panel-bg: #ffffff;
+            --text-main: #1e293b;
+            --primary: #334155;
+            --accent: #0ea5e9;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 15px 30px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #f8fafc;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Header Layout */
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f8fafc;
+            padding: 16px;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Interactive Elements */
+        select.status-select {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select.status-Pending {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        select.status-Production {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+
+        select.status-Shipped {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        /* New Buttons */
+        .btn-export {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-export:hover {
+            background-color: #059669;
+        }
+
+        .btn-delete {
+            background-color: #fee2e2;
+            color: var(--danger);
+            border: 1px solid #fca5a5;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background-color: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">📦 View Orders</a>
+        <a href="manage.html">➕ Place Order</a>
+        <a href="import.html">📥 Import Data</a>
+    </nav>
+    <div class="container">
+
+        <div class="header-actions">
+            <h2>Micro-Industrial Component Queue</h2>
+            <button class="btn-export" onclick="window.location.href='api.php?export=true'">📥 Export to CSV</button>
+        </div>
+
+        <div class="card">
+            <table id="orderTable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Part Number</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Status Control</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function loadOrders() {
+            fetch('api.php')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector('#orderTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(order => {
+                        const cleanStatusClass = order.status === 'In Production' ? 'Production' : order.status;
+
+                        tbody.innerHTML += `
+                            <tr>
+                                <td><strong>#${order.order_id}</strong></td>
+                                <td><code>${order.part_number}</code></td>
+                                <td>${order.description}</td>
+                                <td>${order.quantity} units</td>
+                                <td>
+                                    <select class="status-select status-${cleanStatusClass}" onchange="updateStatus(${order.order_id}, this)">
+                                        <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                        <option value="In Production" ${order.status === 'In Production' ? 'selected' : ''}>In Production</option>
+                                        <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn-delete" onclick="deleteOrder(${order.order_id})">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+
+        function updateStatus(id, selectElement) {
+            const newStatus = selectElement.value;
+            fetch('api.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: id, status: newStatus })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        const cleanClass = newStatus === 'In Production' ? 'Production' : newStatus;
+                        selectElement.className = `status-select status-${cleanClass}`;
+                    } else {
+                        alert('Error updating status');
+                    }
+                });
+        }
+
+        // --- NEW DELETE FUNCTION ---
+        function deleteOrder(id) {
+            if (!confirm(`Are you sure you want to permanently delete Order #${id}?`)) {
+                return; // Cancel if the user clicks "No"
+            }
+
+            fetch('api.php', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: id })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        loadOrders(); // Refresh the table automatically
+                    } else {
+                        alert('Error deleting order: ' + data.error);
+                    }
+                });
+        }
+
+        loadOrders();
+    </script>
+</body>
+
+</html>

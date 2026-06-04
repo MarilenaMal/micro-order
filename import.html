@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Import Data | Micro-Industrial Orders</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --panel-bg: #ffffff;
+            --text-main: #1e293b;
+            --primary: #334155;
+            --accent: #0ea5e9;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 15px 30px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #f8fafc;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .card {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">📦 View Orders</a>
+        <a href="manage.html">➕ Place Order</a>
+        <a href="import.html">📥 Import Data</a>
+    </nav>
+    <div class="container">
+        <h2>Bulk Import Ledger</h2>
+        <div class="card">
+            <div class="upload-area">
+                <span style="font-size: 32px;">📄</span>
+                <p style="margin: 5px 0; font-weight: 500;">Select order system compilation file</p>
+                <span style="font-size: 12px; color: #64748b;">Accepted formats: .csv</span>
+                <br>
+                <input type="file" id="csvFile" accept=".csv">
+            </div>
+            <button onclick="alert('File handler integration target ready.')">Parse and Execute Import</button>
+        </div>
+    </div>
+</body>
+
+</html>
